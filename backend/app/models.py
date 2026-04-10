@@ -19,6 +19,14 @@ class ExtractResult(BaseModel):
         default=None,
         description="Date in DD.MM.YYYY when known",
     )
+    depArr: str | None = Field(
+        default=None,
+        description="Departure/arrival time pair e.g. '08:40/11:45' when present",
+    )
     pnr: str | None = None
+    sPnr: str | None = Field(
+        default=None,
+        description="Supplier PNR / secondary PNR when distinct from primary PNR",
+    )
     flightClass: str | None = None
     passengers: list[Passenger] = Field(default_factory=list)

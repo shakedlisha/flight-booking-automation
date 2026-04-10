@@ -4,6 +4,10 @@ Python **FastAPI** service calls **Gemini** with a fixed JSON schema; a **Chrome
 
 ## Backend
 
+**Windows (easiest):** from the repo root, double-click **`Start-API.bat`**. It installs dependencies if needed, opens a second window running the API, and opens the demo form in your browser (`/demo/`). Edit **`backend/.env`** first for `GEMINI_API_KEY` and `CORS_ORIGINS` (see below).
+
+**Manual:**
+
 ```text
 cd backend
 copy .env.example .env
@@ -101,6 +105,12 @@ docker run --rm -p 8000:8000 --env-file backend/.env -e PORT=8000 booking-extrac
 2. **Options** (or the link in the popup): set **API base URL** if not using `http://127.0.0.1:8000`. Set **API bearer token** to a static secret (`EXTRACT_BEARER_TOKENS` mode) **or** to an **access token (JWT)** when the API uses **JWT / JWKS** mode. Optionally use **Sign in (OAuth2 + PKCE)** to fetch an access token (configure IdP URLs and client id; add your IdP **token** endpoint origin to `host_permissions`). If the IdP returns a **refresh token** (often requires `offline_access` or the vendor’s offline scope in **Scope**), the extension refreshes the access token automatically before **Process** (text and PDF). A **400/401** refresh clears stored OAuth tokens so you can sign in again. Use **Clear OAuth tokens** in Options to drop access + refresh without removing URL settings.
 3. Add your **production** API host to `host_permissions` in `manifest.json` (and your booking app origins to `content_scripts.matches`). For OAuth token exchange, add the token URL’s origin (e.g. `https://login.microsoftonline.com/*` or your Auth0 domain).
 4. Open your booking page (or the demo at `/demo/`), then use the extension popup → **Process** (paste text and/or choose a **PDF**). For scans, enable **`PDF_OCR_ENABLED`** on the server (see Docker or install Poppler + Tesseract locally; on Windows, WSL/Chocolatey or run via Docker).
+
+### TravelHub (`*.trvlhub.co.il`)
+
+The manifest already allows **`https://*.trvlhub.co.il/*`**. On those sites the content script uses **label / name heuristics** to fill Route, Flight #, Date, PNR, Class, and passenger **NAME / ID** table rows (not the generic `data-booking-field` demo hooks). After loading or updating the extension, use **Reload** on `chrome://extensions`, then refresh the docket page.
+
+If some fields stay empty, open **DevTools → Console** on that tab and run **Process** once: the first run per tab logs a table of inputs (`[Booking paste] TravelHub DOM`) so you can share names/labels for selector tweaks.
 
 ### Form hooks (your web app)
 

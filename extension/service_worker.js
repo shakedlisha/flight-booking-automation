@@ -1,4 +1,5 @@
 const DEFAULT_API_BASE = "http://127.0.0.1:8000";
+const DEFAULT_BEARER_TOKEN = "local-dev-booking-token";
 const REFRESH_BUFFER_MS = 120_000;
 
 async function getApiBase() {
@@ -20,7 +21,7 @@ async function getValidAccessToken() {
     "oauthScope",
   ]);
 
-  const access = (stored.apiBearerToken || "").trim();
+  const access = (stored.apiBearerToken || DEFAULT_BEARER_TOKEN).trim();
   const refresh = (stored.oauthRefreshToken || "").trim();
   const expiresAt = Number(stored.oauthTokenExpiresAt) || 0;
   const tokenUrl = (stored.oauthTokenUrl || "").trim();

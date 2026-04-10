@@ -18,7 +18,9 @@ BOOKING_RESPONSE_SCHEMA: dict[str, Any] = {
         "route": {"type": "string", "nullable": True},
         "flightNumber": {"type": "string", "nullable": True},
         "date": {"type": "string", "nullable": True},
+        "depArr": {"type": "string", "nullable": True},
         "pnr": {"type": "string", "nullable": True},
+        "sPnr": {"type": "string", "nullable": True},
         "flightClass": {"type": "string", "nullable": True},
         "passengers": {
             "type": "array",
@@ -40,7 +42,9 @@ Return only JSON matching the schema. Use null for unknown fields.
 - route: airport or city pair like TLV/JFK or TLV-JFK when clearly a route; otherwise null.
 - flightNumber: airline flight number if present (e.g. LY001, AA100).
 - date: travel date as DD.MM.YYYY when you can infer a single main flight date; otherwise null.
-- pnr: record locator / PNR if present.
+- depArr: departure/arrival time pair as "HH:MM/HH:MM" (e.g. "08:40/11:45") when times are present; otherwise null.
+- pnr: primary record locator / PNR if present.
+- sPnr: supplier PNR or secondary PNR only when a second PNR is explicitly labelled differently; otherwise null.
 - flightClass: cabin/class text if present (economy, business, Y, J, etc.).
 - passengers: list of {name, id} for each traveler when names or IDs appear; id is national ID or document number if present, else null.
 Do not invent data. If multiple dates exist, pick the primary outbound flight date or null if ambiguous."""

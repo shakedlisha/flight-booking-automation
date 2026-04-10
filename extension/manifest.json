@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Flight booking paste helper",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Paste raw booking text and fill flight booking fields via your extract API.",
   "action": {
     "default_popup": "popup.html",
@@ -14,7 +14,8 @@
   "permissions": ["storage", "activeTab", "scripting", "identity"],
   "host_permissions": [
     "http://127.0.0.1:8000/*",
-    "http://localhost:8000/*"
+    "http://localhost:8000/*",
+    "https://*.trvlhub.co.il/*"
   ],
   "background": {
     "service_worker": "service_worker.js"
@@ -25,7 +26,8 @@
         "http://localhost:3000/*",
         "http://127.0.0.1:3000/*",
         "http://127.0.0.1:8000/*",
-        "http://localhost:8000/*"
+        "http://localhost:8000/*",
+        "https://*.trvlhub.co.il/*"
       ],
       "js": ["content.js"],
       "run_at": "document_idle"

@@ -5,74 +5,207 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Booking form demo</title>
     <style>
+      :root {
+        --bg: #0f1419;
+        --card: #1a2332;
+        --border: #2d3a4d;
+        --text: #e7ecf3;
+        --muted: #8b9cb3;
+        --accent: #3d8bfd;
+        --ok: #3ecf8e;
+      }
+      * {
+        box-sizing: border-box;
+      }
       body {
-        font: 15px/1.4 system-ui, sans-serif;
-        max-width: 520px;
-        margin: 24px auto;
-        padding: 0 16px;
-        color: #111;
+        font: 16px/1.5 "Segoe UI", system-ui, sans-serif;
+        margin: 0;
+        min-height: 100vh;
+        background: var(--bg);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 24px 20px 48px;
+      }
+      h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 8px;
+        letter-spacing: -0.02em;
+      }
+      .steps {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 16px 18px;
+        margin-bottom: 24px;
+      }
+      .steps h2 {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--muted);
+        margin: 0 0 12px;
+        font-weight: 600;
+      }
+      .steps ol {
+        margin: 0;
+        padding-left: 20px;
+        color: var(--text);
+      }
+      .steps li {
+        margin-bottom: 8px;
+      }
+      .steps li:last-child {
+        margin-bottom: 0;
+      }
+      .steps code,
+      .sample code {
+        font-size: 0.88em;
+        background: #0d1117;
+        padding: 2px 6px;
+        border-radius: 4px;
+        border: 1px solid var(--border);
+      }
+      .pill {
+        display: inline-block;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        background: rgba(62, 207, 142, 0.15);
+        color: var(--ok);
+        padding: 4px 10px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+      .sample {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        margin-bottom: 24px;
+      }
+      .sample h3 {
+        font-size: 0.85rem;
+        margin: 0 0 10px;
+        color: var(--muted);
+        font-weight: 600;
+      }
+      .sample textarea {
+        width: 100%;
+        min-height: 120px;
+        font: 13px/1.45 ui-monospace, monospace;
+        background: #0d1117;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px;
+        resize: vertical;
+      }
+      .hint {
+        font-size: 0.85rem;
+        color: var(--muted);
+        margin-top: 10px;
       }
       fieldset {
-        border: 1px solid #ccc;
-        border-radius: 8px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
         margin-bottom: 16px;
-        padding: 12px;
+        padding: 14px 16px;
+        background: var(--card);
       }
       legend {
         font-weight: 600;
+        padding: 0 8px;
       }
       label {
         display: block;
-        margin: 8px 0 4px;
+        margin: 10px 0 4px;
+        font-size: 0.9rem;
+        color: var(--muted);
       }
-      input {
+      input[type="text"] {
         width: 100%;
-        padding: 6px 8px;
-        border: 1px solid #bbb;
-        border-radius: 4px;
+        padding: 10px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
         font: inherit;
+        background: #0d1117;
+        color: var(--text);
       }
-      .row {
-        margin-top: 10px;
+      input[type="text"]:focus {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
       }
     </style>
   </head>
   <body>
-    <h1>Booking form demo</h1>
-    <p>
-      Load this page from the API host (e.g. <code>http://127.0.0.1:8000/demo/</code>) with the
-      extension installed so the content script runs. Use the popup to paste sample GDS/email text
-      and process.
-    </p>
+    <div class="wrap">
+      <span class="pill">Local demo</span>
+      <h1>Booking form demo</h1>
+      <p style="color: var(--muted); margin: 0 0 20px; font-size: 0.95rem">
+        Use the <strong>Flight booking paste helper</strong> extension popup on this page: paste text (or PDF there),
+        then <strong>Process</strong> — fields below should fill if the API and extension options are set correctly.
+      </p>
 
-    <form>
-      <fieldset>
-        <legend>Itinerary</legend>
-        <label>Route <input type="text" data-booking-field="route" autocomplete="off" /></label>
-        <label
-          >Flight number
-          <input type="text" data-booking-field="flightNumber" autocomplete="off"
-        /></label>
-        <label>Date (DD.MM.YYYY) <input type="text" data-booking-field="date" autocomplete="off" /></label>
-        <label>PNR <input type="text" data-booking-field="pnr" autocomplete="off" /></label>
-        <label>Class <input type="text" data-booking-field="flightClass" autocomplete="off" /></label>
-      </fieldset>
+      <div class="steps">
+        <h2>Checklist</h2>
+        <ol>
+          <li>
+            API running at <code>http://127.0.0.1:8000</code> — easiest: double-click
+            <code>Start-API.bat</code> in the project folder (starts server + opens this page).
+          </li>
+          <li>
+            In <code>backend/.env</code>: set <code>GEMINI_API_KEY</code>; add your extension ID to
+            <code>CORS_ORIGINS</code> as <code>chrome-extension://…</code>.
+          </li>
+          <li>
+            Extension <strong>Options</strong>: API base URL <code>http://127.0.0.1:8000</code>; bearer token must match
+            <code>EXTRACT_BEARER_TOKENS</code> in <code>.env</code> if you use it.
+          </li>
+          <li>Click the extension icon → paste sample text below (or your own) → <strong>Process</strong>.</li>
+        </ol>
+      </div>
 
-      <fieldset>
-        <legend>Passenger 1</legend>
-        <div data-booking-passenger-row>
-          <label>Name <input type="text" data-booking-field="passengerName" autocomplete="off" /></label>
-          <label>ID <input type="text" data-booking-field="passengerId" autocomplete="off" /></label>
-        </div>
-      </fieldset>
+      <div class="sample">
+        <h3>Sample text (copy into the extension popup)</h3>
+        <textarea readonly id="sample">LH456 12JAN TLV FRA HK1 0840 1145 / PNR ABC123 / Y
+Passenger: COHEN/DAVID MR ID 123456789</textarea>
+        <p class="hint">Select all in the box (Ctrl+A), copy (Ctrl+C), open the popup, paste (Ctrl+V), then Process.</p>
+      </div>
 
-      <fieldset>
-        <legend>Passenger 2</legend>
-        <div data-booking-passenger-row>
-          <label>Name <input type="text" data-booking-field="passengerName" autocomplete="off" /></label>
-          <label>ID <input type="text" data-booking-field="passengerId" autocomplete="off" /></label>
-        </div>
-      </fieldset>
-    </form>
+      <form>
+        <fieldset>
+          <legend>Itinerary</legend>
+          <label>Route <input type="text" data-booking-field="route" autocomplete="off" /></label>
+          <label
+            >Flight number
+            <input type="text" data-booking-field="flightNumber" autocomplete="off"
+          /></label>
+          <label>Date (DD.MM.YYYY) <input type="text" data-booking-field="date" autocomplete="off" /></label>
+          <label>PNR <input type="text" data-booking-field="pnr" autocomplete="off" /></label>
+          <label>Class <input type="text" data-booking-field="flightClass" autocomplete="off" /></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Passenger 1</legend>
+          <div data-booking-passenger-row>
+            <label>Name <input type="text" data-booking-field="passengerName" autocomplete="off" /></label>
+            <label>ID <input type="text" data-booking-field="passengerId" autocomplete="off" /></label>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Passenger 2</legend>
+          <div data-booking-passenger-row>
+            <label>Name <input type="text" data-booking-field="passengerName" autocomplete="off" /></label>
+            <label>ID <input type="text" data-booking-field="passengerId" autocomplete="off" /></label>
+          </div>
+        </fieldset>
+      </form>
+    </div>
   </body>
 </html>
