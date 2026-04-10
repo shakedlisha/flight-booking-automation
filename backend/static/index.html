@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Booking form demo</title>
+    <style>
+      body {
+        font: 15px/1.4 system-ui, sans-serif;
+        max-width: 520px;
+        margin: 24px auto;
+        padding: 0 16px;
+        color: #111;
+      }
+      fieldset {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        padding: 12px;
+      }
+      legend {
+        font-weight: 600;
+      }
+      label {
+        display: block;
+        margin: 8px 0 4px;
+      }
+      input {
+        width: 100%;
+        padding: 6px 8px;
+        border: 1px solid #bbb;
+        border-radius: 4px;
+        font: inherit;
+      }
+      .row {
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Booking form demo</h1>
+    <p>
+      Load this page from the API host (e.g. <code>http://127.0.0.1:8000/demo/</code>) with the
+      extension installed so the content script runs. Use the popup to paste sample GDS/email text
+      and process.
+    </p>
+
+    <form>
+      <fieldset>
+        <legend>Itinerary</legend>
+        <label>Route <input type="text" data-booking-field="route" autocomplete="off" /></label>
+        <label
+          >Flight number
+          <input type="text" data-booking-field="flightNumber" autocomplete="off"
+        /></label>
+        <label>Date (DD.MM.YYYY) <input type="text" data-booking-field="date" autocomplete="off" /></label>
+        <label>PNR <input type="text" data-booking-field="pnr" autocomplete="off" /></label>
+        <label>Class <input type="text" data-booking-field="flightClass" autocomplete="off" /></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Passenger 1</legend>
+        <div data-booking-passenger-row>
+          <label>Name <input type="text" data-booking-field="passengerName" autocomplete="off" /></label>
+          <label>ID <input type="text" data-booking-field="passengerId" autocomplete="off" /></label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>Passenger 2</legend>
+        <div data-booking-passenger-row>
+          <label>Name <input type="text" data-booking-field="passengerName" autocomplete="off" /></label>
+          <label>ID <input type="text" data-booking-field="passengerId" autocomplete="off" /></label>
+        </div>
+      </fieldset>
+    </form>
+  </body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Booking paste</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main>
+      <label for="raw">Raw booking text</label>
+      <textarea id="raw" rows="10" placeholder="Paste email or GDS text…"></textarea>
+      <label for="pdfFile" class="pdf-label">Or PDF (text layer; server may OCR scans if enabled)</label>
+      <input id="pdfFile" type="file" accept=".pdf,application/pdf" />
+      <div class="row">
+        <button type="button" id="process">Process</button>
+        <a id="open-options" href="#">API settings</a>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>
