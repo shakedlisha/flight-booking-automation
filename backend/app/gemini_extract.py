@@ -22,6 +22,8 @@ BOOKING_RESPONSE_SCHEMA: dict[str, Any] = {
         "pnr": {"type": "string", "nullable": True},
         "sPnr": {"type": "string", "nullable": True},
         "flightClass": {"type": "string", "nullable": True},
+        "currency": {"type": "string", "nullable": True},
+        "price": {"type": "string", "nullable": True},
         "passengers": {
             "type": "array",
             "items": {
@@ -46,6 +48,8 @@ Return only JSON matching the schema. Use null for unknown fields.
 - pnr: primary record locator / PNR if present.
 - sPnr: supplier PNR or secondary PNR only when a second PNR is explicitly labelled differently; otherwise null.
 - flightClass: cabin/class text if present (economy, business, Y, J, etc.).
+- currency: 3-letter ISO code (USD, EUR, ILS) only when explicitly stated in the text; otherwise null.
+- price: total or per-person fare as a plain number string (e.g. '450', '1250.00') when a numeric amount is clearly a fare; otherwise null.
 - passengers: list of {name, id} for each traveler when names or IDs appear; id is national ID or document number if present, else null.
 Do not invent data. If multiple dates exist, pick the primary outbound flight date or null if ambiguous."""
 

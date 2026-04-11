@@ -1,4 +1,16 @@
-const TOP_FIELDS = ["route", "flightNumber", "date", "depArr", "pnr", "sPnr", "flightClass"];
+const TOP_FIELDS = [
+  "route",
+  "flightNumber",
+  "date",
+  "depArr",
+  "pnr",
+  "sPnr",
+  "flightClass",
+  "service",
+  "status",
+  "currency",
+  "price",
+];
 
 const TRAVELHUB_DEBUG_SESSION_KEY = "bookingPasteTravelHubDebugOnce";
 
@@ -150,13 +162,70 @@ const TRAVELHUB_FIELD_CONFIG = {
     labels: ["service class", "booking class", "cabin class", "cabin", "rbd", "fare class"],
     nameHints: ["cabin", "rbd", "bookingclass", "flightclass", "flight_class"],
   },
+  service: {
+    labels: ["service"],
+    nameHints: ["service"],
+    exactLabel: true,
+  },
+  status: {
+    labels: ["status"],
+    nameHints: ["status", "bookingstatus", "booking_status"],
+    exactLabel: true,
+  },
+  currency: {
+    labels: ["currency"],
+    nameHints: ["currency", "curr"],
+    exactLabel: true,
+  },
+  price: {
+    labels: ["price", "fare", "total", "amount"],
+    nameHints: ["price", "fare", "total", "amount"],
+  },
 };
+
+/** Israir 6H, Bluebird BZ, Arkia IZ, Air Haifa HF, Tusair TUS → "C"; else "FLIGHT". */
+function deriveTravelHubService(flightNumber) {
+  if (!flightNumber) return "FLIGHT";
+  const flt = String(flightNumber).trim().toUpperCase();
+  const charterPrefixes = ["6H", "BZ", "IZ", "HF", "TUS"];
+  for (const prefix of charterPrefixes) {
+    if (flt.startsWith(prefix)) return "C";
+  }
+  return "FLIGHT";
+}
+
+/**
+ * Merge API payload with TravelHub business defaults (class T, USD, ok, derived service).
+ */
+function buildTravelHubPayload(data) {
+  const d = data || {};
+  const flightClass =
+    d.flightClass != null && String(d.flightClass).trim() !== ""
+      ? String(d.flightClass).trim()
+      : "T";
+  const currency =
+    d.currency != null && String(d.currency).trim() !== ""
+      ? String(d.currency).trim().toUpperCase()
+      : "USD";
+  const priceRaw = d.price != null ? String(d.price).trim() : "";
+  return {
+    ...d,
+    flightClass,
+    currency,
+    service: deriveTravelHubService(d.flightNumber),
+    status: "ok",
+    price: priceRaw,
+  };
+}
 
 function findTravelHubField(key) {
   const cfg = TRAVELHUB_FIELD_CONFIG[key];
   if (!cfg) return null;
   let el = findInputByLabelMatchers(cfg.labels, cfg.exactLabel === true);
   if (!el) el = findInputByNameHints(cfg.nameHints);
+  if (!el && key === "flightClass") {
+    el = findInputByLabelMatchers(["class"], true);
+  }
   return el;
 }
 
@@ -196,16 +265,17 @@ function maybeDebugTravelHubOnce() {
 }
 
 function fillTravelHubTop(data) {
+  const payload = buildTravelHubPayload(data);
   const filled = [];
   const missing = [];
   const elements = {};
 
   for (const key of TOP_FIELDS) {
-    const val = data[key];
+    const val = payload[key];
     const el = findTravelHubField(key);
     elements[key] = el;
     if (!el) {
-      if (val) missing.push(key);
+      if (val != null && val !== "") missing.push(key);
       continue;
     }
     if (val == null || val === "") {

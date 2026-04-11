@@ -112,6 +112,8 @@ The manifest already allows **`https://*.trvlhub.co.il/*`**. On those sites the 
 
 If some fields stay empty, open **DevTools → Console** on that tab and run **Process** once: the first run per tab logs a table of inputs (`[Booking paste] TravelHub DOM`) so you can share names/labels for selector tweaks.
 
+On TravelHub, the extension also applies **defaults**: **Status** = `ok`, **Currency** = extracted ISO code or **`USD`**, **Class** = extracted value or **`T`**, **Service** = **`C`** for flight numbers starting with **6H** (Israir), **BZ** (Bluebird), **IZ** (Arkia), **HF** (Air Haifa), or **TUS** (Tusair); otherwise **`FLIGHT`**. **Price** is filled when the API extracts a fare from the paste (set `currency` / `price` in the model).
+
 ### Form hooks (your web app)
 
 - Top-level: `data-booking-field` one of `route`, `flightNumber`, `date`, `pnr`, `flightClass`.

@@ -29,4 +29,12 @@ class ExtractResult(BaseModel):
         description="Supplier PNR / secondary PNR when distinct from primary PNR",
     )
     flightClass: str | None = None
+    currency: str | None = Field(
+        default=None,
+        description="ISO 4217 code (USD, EUR, ILS) when stated in text; otherwise null",
+    )
+    price: str | None = Field(
+        default=None,
+        description="Fare amount as plain number string when present (e.g. '450', '1250.00')",
+    )
     passengers: list[Passenger] = Field(default_factory=list)
