@@ -26,11 +26,11 @@ python -m pip install -q -r requirements.txt
 $keyLine = Get-Content ".env" -ErrorAction SilentlyContinue | Where-Object { $_ -match '^\s*GEMINI_API_KEY=' }
 if (-not $keyLine -or $keyLine -match '=\s*$') {
     Write-Host ""
-    Write-Host "WARNING: GEMINI_API_KEY looks empty in backend\.env — Process will fail until you set it." -ForegroundColor Yellow
+    Write-Host "WARNING: GEMINI_API_KEY looks empty in backend\.env - process will fail until you set it." -ForegroundColor Yellow
     Write-Host ""
 }
 
-$uvicornCmd = "Set-Location -LiteralPath '$Backend'; Write-Host 'Booking API — leave this window open. Ctrl+C to stop.' -ForegroundColor Green; python -m uvicorn app.main:app --host 127.0.0.1 --port 8000"
+$uvicornCmd = "Set-Location -LiteralPath '$Backend'; Write-Host 'Booking API - leave this window open. Ctrl+C to stop.' -ForegroundColor Green; python -m uvicorn app.main:app --host 127.0.0.1 --port 8000"
 Start-Process powershell -ArgumentList @("-NoExit", "-NoProfile", "-Command", $uvicornCmd)
 
 Write-Host "Waiting for server to listen on port 8000..."
@@ -51,6 +51,6 @@ if ($ready) {
 }
 
 Write-Host ""
-Write-Host "Next: Chrome extension -> Options -> API base URL http://127.0.0.1:8000 and bearer token (if EXTRACT_BEARER_TOKENS is set in .env)." -ForegroundColor Cyan
-Write-Host "API keeps running in the other PowerShell window. Close that window or press Ctrl+C there to stop the server." -ForegroundColor DarkGray
+Write-Host 'Next: Chrome extension - Options - set API base URL to http://127.0.0.1:8000 and bearer token if EXTRACT_BEARER_TOKENS is set in .env.' -ForegroundColor Cyan
+Write-Host 'API keeps running in the other PowerShell window. Close that window or press Ctrl+C there to stop the server.' -ForegroundColor DarkGray
 

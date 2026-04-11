@@ -11,8 +11,18 @@ if (-not (Test-Path (Join-Path $ExtensionDir "manifest.json"))) {
     exit 1
 }
 
-Write-Host "Starting API (separate window)..." -ForegroundColor Cyan
-& (Join-Path $RepoRoot "Start-API.ps1")
+$apiUp = $false
+try {
+    $h = Invoke-WebRequest -Uri "http://127.0.0.1:8000/health" -UseBasicParsing -TimeoutSec 2
+    if ($h.StatusCode -eq 200) { $apiUp = $true }
+} catch { }
+
+if (-not $apiUp) {
+    Write-Host "Starting API (separate window)..." -ForegroundColor Cyan
+    & (Join-Path $RepoRoot "Start-API.ps1")
+} else {
+    Write-Host "API already responding on http://127.0.0.1:8000 - skipping Start-API.ps1" -ForegroundColor Green
+}
 
 $chrome = $null
 foreach ($p in @(
