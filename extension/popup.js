@@ -35,6 +35,7 @@ async function applyFillResultToActiveTab(payload) {
   if (!tab?.id) {
     throw new Error("No active tab.");
   }
+  await ensureBookingContentScript(tab.id);
   return chrome.tabs.sendMessage(tab.id, {
     type: "FILL_BOOKING",
     payload,

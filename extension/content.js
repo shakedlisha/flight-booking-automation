@@ -556,6 +556,10 @@ function buildSummary(top, pax, mode) {
 }
 
 chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
+  if (msg?.type === "PING") {
+    sendResponse({ ok: true });
+    return;
+  }
   if (msg?.type !== "FILL_BOOKING") {
     return;
   }

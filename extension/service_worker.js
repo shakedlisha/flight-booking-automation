@@ -1,3 +1,5 @@
+importScripts("messaging_helper.js");
+
 const DEFAULT_API_BASE = "http://127.0.0.1:8000";
 const DEFAULT_BEARER_TOKEN = "local-dev-booking-token";
 const REFRESH_BUFFER_MS = 120_000;
@@ -235,10 +237,7 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
       const payload = await res.json();
 
       try {
-        const fillResult = await chrome.tabs.sendMessage(msg.tabId, {
-          type: "FILL_BOOKING",
-          payload,
-        });
+        const fillResult = await sendFillBookingToTab(msg.tabId, payload);
         sendResponse({
           ok: true,
           summary: fillResult?.summary || "Form updated (no summary).",
@@ -247,7 +246,8 @@ chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         sendResponse({
           ok: false,
           error:
-            "Could not reach the content script. Open your booking site (matching manifest URL patterns) and try again.",
+            e?.message ||
+            "Could not reach the page helper. Open the booking or demo page, press F5 to reload, then try again.",
         });
       }
     } catch (e) {

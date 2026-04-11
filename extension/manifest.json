@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Flight booking paste helper",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "description": "Paste raw booking text and fill flight booking fields via your extract API.",
   "action": {
     "default_popup": "popup.html",
