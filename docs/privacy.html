@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy – Booking paste helper</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.7;
+      color: #1a1a2e;
+      background: #f8f9fc;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      color: #fff;
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    header h1 { font-size: 2rem; font-weight: 700; letter-spacing: -0.5px; }
+    header p  { margin-top: 8px; opacity: 0.7; font-size: 0.95rem; }
+    main {
+      max-width: 780px;
+      margin: 48px auto;
+      padding: 0 24px 80px;
+    }
+    h2 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #16213e;
+      margin: 40px 0 12px;
+      padding-bottom: 6px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    p { margin-bottom: 14px; color: #374151; }
+    ul { margin: 0 0 14px 20px; color: #374151; }
+    ul li { margin-bottom: 8px; }
+    a { color: #3b82f6; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .badge {
+      display: inline-block;
+      background: #e0f2fe;
+      color: #0369a1;
+      font-size: 0.8rem;
+      font-weight: 600;
+      border-radius: 4px;
+      padding: 2px 8px;
+      margin-right: 4px;
+    }
+    footer {
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.85rem;
+      color: #9ca3af;
+      border-top: 1px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Privacy Policy</h1>
+  <p>Booking paste helper &nbsp;·&nbsp; Last updated: 27 April 2026</p>
+</header>
+
+<main>
+
+  <p>
+    This Privacy Policy describes how the <strong>Booking paste helper</strong>
+    Chrome extension ("the Extension") and its companion API ("the Backend")
+    handle user data. The Backend is operated by <strong>Shaked Lisha</strong>
+    ("we", "us") and is hosted on Google Cloud Run.
+  </p>
+
+  <h2>What the Extension does</h2>
+  <p>
+    The Extension lets you paste booking-confirmation text or upload a booking PDF.
+    The text or PDF is sent to the Backend, which uses the Google Gemini API to
+    identify the booking type (flight, hotel, car, transfer, or passport) and
+    extract structured fields, then returns the result so the Extension can
+    pre-fill a booking form.
+  </p>
+
+  <h2>Data we receive</h2>
+  <p>When you trigger an extraction the Backend receives:</p>
+  <ul>
+    <li>The <strong>booking text</strong> you pasted, <em>or</em> the <strong>PDF</strong> you selected.</li>
+    <li>The flight leg hint ("auto", "outbound", or "return") if any.</li>
+    <li>Standard request metadata Cloud Run records automatically: timestamp, IP address, User-Agent, response status, and response time.</li>
+  </ul>
+  <p>
+    We do <strong>not</strong> request or receive your Google contacts, calendar,
+    Drive files, or any Google-account scope beyond <code>openid email</code>.
+  </p>
+
+  <h2>What we do with the data</h2>
+  <ul>
+    <li>The booking text or PDF is forwarded to the <strong>Google Gemini API</strong> for structured extraction. Google's own terms apply — see <a href="https://ai.google.dev/gemini-api/terms" target="_blank">ai.google.dev/gemini-api/terms</a>.</li>
+    <li>The extracted result is returned to your browser and is <strong>not</strong> stored on our servers.</li>
+    <li>We <strong>do not store</strong> booking text, PDF contents, or extracted fields after the request completes.</li>
+    <li>Cloud Run access logs (timestamp, IP, User-Agent, status code) are retained automatically by Google for up to 30 days for security and abuse prevention.</li>
+    <li>If quotas are enabled, we keep a <strong>per-user daily counter</strong> of how many extractions you have run. Counters reset every 24 hours and are identified only by an opaque Google user identifier. No booking content is associated with the counter.</li>
+  </ul>
+
+  <h2>Data we do <em>not</em> collect</h2>
+  <ul>
+    <li>We do not sell or share your data with advertisers or third parties for marketing purposes.</li>
+    <li>We do not use your booking content to train any AI model.</li>
+    <li>We do not access pages you visit unless they match the limited list of hosts declared in the extension's manifest (your booking system and the developer demo page).</li>
+  </ul>
+
+  <h2>Third-party services</h2>
+  <ul>
+    <li><span class="badge">Google</span> <strong>Gemini API</strong> — used for booking-text understanding.</li>
+    <li><span class="badge">Google</span> <strong>Cloud Run / Cloud Logging</strong> — hosting and operational logs.</li>
+    <li><span class="badge">Google</span> <strong>Sign-In (OAuth 2.0 / OIDC)</strong> — used (when enabled) to verify which signed-in user is making each request, so per-user quotas can be enforced.</li>
+  </ul>
+
+  <h2>Your choices</h2>
+  <ul>
+    <li>Uninstalling the Extension removes all extension-managed settings from your browser.</li>
+    <li>Revoking the OAuth grant from <a href="https://myaccount.google.com/permissions" target="_blank">myaccount.google.com/permissions</a> immediately stops the Backend from verifying your identity.</li>
+    <li>You may request deletion of Cloud Run logs that contain your IP address by emailing us at the address below.</li>
+  </ul>
+
+  <h2>Children's privacy</h2>
+  <p>
+    The Extension is not directed at children under 13 and we do not knowingly
+    collect personal data from anyone under 13.
+  </p>
+
+  <h2>Changes to this policy</h2>
+  <p>
+    We will update the "Last updated" date at the top of this page when we make
+    material changes. Significant changes will also be announced in the Chrome
+    Web Store listing.
+  </p>
+
+  <h2>Contact</h2>
+  <p>
+    Questions about this policy? Email us at
+    <a href="mailto:shakedlisha@gmail.com">shakedlisha@gmail.com</a>.
+  </p>
+
+</main>
+
+<footer>
+  &copy; 2026 Shaked Lisha &nbsp;·&nbsp; Booking paste helper
+</footer>
+
+</body>
+</html>
